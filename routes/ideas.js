@@ -10,6 +10,13 @@ const ideas= [
     {
         id:2,
         ideas: 'total id :2'
+    },
+    {
+        id: 3,
+        ideas: "This new idea update",
+        tag: "technology",
+        username: "Woury",
+        date: "2023-12-22"
     }
 ];
 
@@ -44,12 +51,53 @@ router.post('/', (req ,res)=>{
         username: req.body.username,
         date:new Date().toISOString().slice(0,10),
     }
+   
     ideas.push(idea)
     console.log(idea)
     res.status(201).json({succeed: true, message: idea});
 
 
-})
+});
+
+// Update ideas
+
+router.put('/:id', (req, res) => {
+    const ideaId = +req.params.id;
+    const ideaIndex = ideas.findIndex((idea) => idea.id === ideaId);
+
+    if (ideaIndex === -1) {
+        return res.status(404).json({ succeed: false, message: 'Idea not found' });
+    }
+
+    const updatedIdea = {
+        id: ideaId,
+        text: req.body.text,
+        tag: req.body.tag,
+        username: req.body.username,
+        date: new Date().toISOString().slice(0, 10),
+    };
+
+    ideas[ideaIndex] = updatedIdea;
+
+    console.log(updatedIdea);
+    res.status(200).json({ succeed: true, message: updatedIdea });
+});
+
+
+router.delete('/:id', (req, res) => {
+    const ideaId = +req.params.id;
+    const ideaIndex = ideas.findIndex((idea) => idea.id === ideaId);
+
+    if (ideaIndex === -1) {
+        return res.status(404).json({ succeed: false, message: 'Idea not found' });
+    }
+
+    ideas.splice(ideaIndex, 1);
+
+    console.log(ideas);
+
+    return res.status(204).json({ succeed: true, message: `Idea ${ideaId} deleted` });
+});
 
 
 module.exports=router;
