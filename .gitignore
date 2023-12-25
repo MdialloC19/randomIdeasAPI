@@ -1,3 +1,4 @@
 test
 node_modules
 php_errors.log
+.env
