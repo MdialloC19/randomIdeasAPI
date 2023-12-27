@@ -1,87 +1,111 @@
 const express= require('express');
-
 const router=express.Router();
+const Idea= require('../models/Idea');
 
-const ideas= [
-    {
-        id: 1,
-        ideas: 'total ok'
-    },
-    {
-        id:2,
-        ideas: 'total id :2'
-    },
-    {
-        id: 3,
-        ideas: "This new idea update",
-        tag: "technology",
-        username: "Woury",
-        date: "2023-12-22"
-    }
-];
+
+
+// const ideas= [
+//     {
+//         id: 1,
+//         ideas: 'total ok'
+//     },
+//     {
+//         id:2,
+//         ideas: 'total id :2'
+//     },
+//     {
+//         id: 3,
+//         ideas: "This new idea update",
+//         tag: "technology",
+//         username: "Woury",
+//         date: "2023-12-22"
+//     }
+// ];
 
 
 // Get All ideas
-router.get('/', (req,res)=>{
-    res.status(200).json({succeed: true, data : ideas});
+router.get('/', async (req,res)=>{
+    try {
+        const ideas= await Idea.find();
+        res.status(200).json({succeed: true, data : ideas});
+    } catch (error) {
+        res.status(500).json({succeed:false, error: 'something went wrong!!!'});
+        
+    }
 });
 
 // Get Single idea
-router.get('/:id', (req,res)=>{
-    const idea= ideas.find((idea)=>idea.id=== +req.params.id )
+router.get('/:id', async (req, res) => {
+    try {
+        const idea = await Idea.findById(req.params.id);
+        
+        if (!idea) {
+            return res.status(404).json({
+                succeed: false,
+                error: 'Idea not found',
+            });
+        }
 
-    if(!idea){
-        return res.status(404).json({
-            succeed :false,
-            error: 'Idea not found',
-        })
+        res.status(200).json({ succeed: true, data: idea });
+    } catch (error) {
+        res.status(500).json({ succeed: false, error: error.message });
     }
-    res.status(200).json({succeed: true, data : idea});
 });
+
 
 /*Post method */
 
 // Add an Idea
 
-router.post('/', (req ,res)=>{
-    const idea ={
-        id: 3,
-        ideas: req.body.text,
+router.post('/', async (req ,res)=>{
+    const idea = new Idea({
+        text: req.body.text,
         tag:req.body.tag,
         username: req.body.username,
-        date:new Date().toISOString().slice(0,10),
-    }
-   
-    ideas.push(idea)
-    console.log(idea)
-    res.status(201).json({succeed: true, message: idea});
+        
+    });
 
+    try{
+       const saveIdea= await idea.save();
+        res.status(201).json({succeed: true, message: saveIdea});
+
+    }catch (error) {
+        res.status(500).json({succeed:false, error: 'something went wrong!!!'}); 
+    }
 
 });
 
 // Update ideas
 
-router.put('/:id', (req, res) => {
-    const ideaId = +req.params.id;
-    const ideaIndex = ideas.findIndex((idea) => idea.id === ideaId);
+router.put('/:id', async (req, res) => {
+    const { text, tag, username } = req.body;
+    const updateFields = {};
 
-    if (ideaIndex === -1) {
-        return res.status(404).json({ succeed: false, message: 'Idea not found' });
+    if (text) updateFields.text = text;
+    if (tag) updateFields.tag = tag;
+    if (username) updateFields.username = username;
+
+    if (Object.keys(updateFields).length === 0) {
+        return res.status(400).json({ succeed: false, error: 'No fields to update' });
     }
 
-    const updatedIdea = {
-        id: ideaId,
-        text: req.body.text,
-        tag: req.body.tag,
-        username: req.body.username,
-        date: new Date().toISOString().slice(0, 10),
-    };
+    try {
+        const updatedIdea = await Idea.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: updateFields },
+            { new: true }
+        );
 
-    ideas[ideaIndex] = updatedIdea;
+        if (!updatedIdea) {
+            return res.status(404).json({ succeed: false, error: 'Idea not found' });
+        }
 
-    console.log(updatedIdea);
-    res.status(200).json({ succeed: true, message: updatedIdea });
+        res.status(200).json({ succeed: true, data: updatedIdea });
+    } catch (error) {
+        res.status(500).json({ succeed: false, error: error.message });
+    }
 });
+
 
 
 router.delete('/:id', (req, res) => {
