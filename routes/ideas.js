@@ -1,86 +1,79 @@
-const express= require('express');
-const router=express.Router();
-const Idea= require('../models/Idea');
+const express = require('express');
+const router = express.Router();
+const Idea = require('../models/Idea');
+const { isValidObjectId } = require('mongoose');
 
-
-
-// const ideas= [
-//     {
-//         id: 1,
-//         ideas: 'total ok'
-//     },
-//     {
-//         id:2,
-//         ideas: 'total id :2'
-//     },
-//     {
-//         id: 3,
-//         ideas: "This new idea update",
-//         tag: "technology",
-//         username: "Woury",
-//         date: "2023-12-22"
-//     }
-// ];
-
-
-// Get All ideas
-router.get('/', async (req,res)=>{
+/**
+ * @route GET /ideas
+ * @description Get all ideas
+ * @access Public
+ */
+router.get('/', async (req, res) => {
     try {
-        const ideas= await Idea.find();
-        res.status(200).json({succeed: true, data : ideas});
+        const ideas = await Idea.find();
+        res.status(200).json({ succeed: true, data: ideas });
     } catch (error) {
-        res.status(500).json({succeed:false, error: 'something went wrong!!!'});
-        
+        res.status(500).json({ succeed: false, error: 'Something went wrong' });
     }
 });
 
-// Get Single idea
+/**
+ * @route GET /ideas/:id
+ * @description Get a specific idea by its ID
+ * @param {string} req.params.id - The ID of the idea to retrieve
+ * @access Public
+ */
 router.get('/:id', async (req, res) => {
     try {
-        const idea = await Idea.findById(req.params.id);
-        
-        if (!idea) {
-            return res.status(404).json({
-                succeed: false,
-                error: 'Idea not found',
-            });
+        const ideaId = req.params.id;
+
+        // Validate the ID
+        if (!isValidObjectId(ideaId)) {
+            return res.status(400).json({ succeed: false, error: 'Invalid idea ID' });
         }
 
+        const idea = await Idea.findById(ideaId);
+        if (!idea) {
+            return res.status(404).json({ succeed: false, error: 'Idea not found' });
+        }
         res.status(200).json({ succeed: true, data: idea });
     } catch (error) {
         res.status(500).json({ succeed: false, error: error.message });
     }
 });
 
-
-/*Post method */
-
-// Add an Idea
-
-router.post('/', async (req ,res)=>{
-    const idea = new Idea({
-        text: req.body.text,
-        tag:req.body.tag,
-        username: req.body.username,
-        
-    });
-
-    try{
-       const saveIdea= await idea.save();
-        res.status(201).json({succeed: true, message: saveIdea});
-
-    }catch (error) {
-        res.status(500).json({succeed:false, error: 'something went wrong!!!'}); 
+/**
+ * @route POST /ideas
+ * @description Add a new idea
+ * @access Public
+ */
+router.post('/', async (req, res) => {
+    const { text, tag, username } = req.body;
+    const idea = new Idea({ text, tag, username });
+    try {
+        const savedIdea = await idea.save();
+        res.status(201).json({ succeed: true, message: 'Idea added successfully', data: savedIdea });
+    } catch (error) {
+        res.status(500).json({ succeed: false, error: 'Something went wrong' });
     }
-
 });
 
-// Update ideas
+/**
+ * @route PUT /ideas/:id
+ * @description Update an existing idea by its ID
+ * @access Public
+ */
+const mongoose = require('mongoose');
 
 router.put('/:id', async (req, res) => {
+ const ideaId = req.params.id;
     const { text, tag, username } = req.body;
     const updateFields = {};
 
+    if (!isValidObjectId(ideaId)) {
+        return res.status(400).json({ succeed: false, error: 'Invalid Idea ID' });
+    }
+    
     if (text) updateFields.text = text;
     if (tag) updateFields.tag = tag;
     if (username) updateFields.username = username;
@@ -91,12 +84,11 @@ router.put('/:id', async (req, res) => {
 
     try {
         const updatedIdea = await Idea.findOneAndUpdate(
-            { _id: req.params.id },
+            { _id: ideaId },
             { $set: updateFields },
             { new: true }
         );
-
-        if (!updatedIdea) {
+        if (updatedIdea === null) {
             return res.status(404).json({ succeed: false, error: 'Idea not found' });
         }
 
@@ -108,20 +100,25 @@ router.put('/:id', async (req, res) => {
 
 
 
-router.delete('/:id', (req, res) => {
-    const ideaId = +req.params.id;
-    const ideaIndex = ideas.findIndex((idea) => idea.id === ideaId);
-
-    if (ideaIndex === -1) {
-        return res.status(404).json({ succeed: false, message: 'Idea not found' });
+/**
+ * @route DELETE /ideas/:id
+ * @description Delete an idea by its ID
+ * @access Public
+ */
+router.delete('/:id', async (req, res) => {
+    try {
+        const ideaId = req.params.id;
+        if (!isValidObjectId(ideaId)) {
+            return res.status(400).json({ succeed: false, error: 'Invalid idea ID' });
+        }
+        const deletedIdea = await Idea.findOneAndDelete({ _id: ideaId });
+        if (!deletedIdea) {
+            return res.status(404).json({ succeed: false, error: 'Idea not found' });
+        }
+        res.status(200).json({ succeed: true, data: deletedIdea });
+    } catch (error) {
+        res.status(500).json({ succeed: false, error: error.message });
     }
-
-    ideas.splice(ideaIndex, 1);
-
-    console.log(ideas);
-
-    return res.status(204).json({ succeed: true, message: `Idea ${ideaId} deleted` });
 });
 
-
-module.exports=router;
+module.exports = router;
