@@ -1,9 +1,37 @@
+import Modal from "./Modal";
+
+
 class IdeaForm{
 
     constructor(){
-        this._formModal=document.querySelector('#form-modal');
-        this.render();
+        this._formModal=document.querySelector
+        ('#form-modal');
+        this.modal=new Modal();
+       
+        // this.
     }
+
+    addEventListeners(){
+        this._form.addEventListener('submit', this.
+        handleSubmit.bind(this));
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        const idea ={
+            text:this._form.elements.text.value,
+            tag:this._form.elements.tag.value,
+            username:this._form.elements.username.value,
+        }
+        console.log(idea)
+        this._form.elements.text.value=''
+        this._form.elements.tag.value=''
+        this._form.elements.username.value=''
+       
+        document.dispatchEvent(new Event('closemodal'));
+       
+
+    }
+   
 
     render(){
         this._formModal.innerHTML=`<form id="idea-form">
@@ -20,8 +48,13 @@ class IdeaForm{
             <input type="text" name="tag" id="tag" />
           </div>
           <button class="btn" type="submit" id="submit">Submit</button>
-        </form>`
+        </form>`;
+
+        this._form=document.querySelector('#idea-form');
+        // this.render();
+        this.addEventListeners();
     }
+    
 
 }
 
