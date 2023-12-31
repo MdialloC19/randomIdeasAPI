@@ -1,38 +1,41 @@
+import IdeasApi from "../services/IdeasApi";
 class IdeaList{
 
     constructor(){
         this._ideaListEl=document.querySelector
             ('#idea-list');
-        this._ideas=[
-            {
-                id:1,
-                text: 'ideas one',
-                tag: 'Technology',
-                username: 'john',
-                date: new Date(),
-            },
-            {
-                id:2,
-                text: 'ideas two',
-                tag: 'Inventions',
-                username: 'Musa',
-                date: new Date(),
-            },
-            {
-                id:3,
-                text: 'ideas three',
-                tag: 'Software',
-                username: 'Assane',
-                date: new Date(),
-            },
-            {
-                id:4,
-                text: 'ideas three',
-                tag: 'Business',
-                username: 'Modou',
-                date: new Date(),
-            }
-        ];
+        this._ideas=[];
+        // [
+        //     {
+        //         id:1,
+        //         text: 'ideas one',
+        //         tag: 'Technology',
+        //         username: 'john',
+        //         date: new Date(),
+        //     },
+        //     {
+        //         id:2,
+        //         text: 'ideas two',
+        //         tag: 'Inventions',
+        //         username: 'Musa',
+        //         date: new Date(),
+        //     },
+        //     {
+        //         id:3,
+        //         text: 'ideas three',
+        //         tag: 'Software',
+        //         username: 'Assane',
+        //         date: new Date(),
+        //     },
+        //     {
+        //         id:4,
+        //         text: 'ideas three',
+        //         tag: 'Business',
+        //         username: 'Modou',
+        //         date: new Date(),
+        //     }
+        // ];
+        this.getIdeas();
 
         this._validTags=new Set();
         this._validTags.add('technology');
@@ -41,6 +44,19 @@ class IdeaList{
         this._validTags.add('education');
         this._validTags.add('health');
         this._validTags.add('inventions');
+
+    }
+
+    async getIdeas(){
+
+        try{
+            const res =await IdeasApi.getIdeas();
+            this._ideas=res.data.data;
+            console.log(this._ideas);
+            this.render();
+        }catch(error){
+            console.log(error)
+        }
 
     }
 
