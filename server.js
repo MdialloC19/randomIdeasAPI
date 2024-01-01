@@ -1,7 +1,7 @@
 const path=require('path');
 const express = require('express');
 require('dotenv').config();
-const PORT_DEFAULT = 5000;
+const PORT_DEFAULT = 8000;
 const connectDB = require('./config/db');
 const cors=require('cors');
 
