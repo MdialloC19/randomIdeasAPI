@@ -5,36 +5,6 @@ class IdeaList{
         this._ideaListEl=document.querySelector
             ('#idea-list');
         this._ideas=[];
-        // [
-        //     {
-        //         id:1,
-        //         text: 'ideas one',
-        //         tag: 'Technology',
-        //         username: 'john',
-        //         date: new Date(),
-        //     },
-        //     {
-        //         id:2,
-        //         text: 'ideas two',
-        //         tag: 'Inventions',
-        //         username: 'Musa',
-        //         date: new Date(),
-        //     },
-        //     {
-        //         id:3,
-        //         text: 'ideas three',
-        //         tag: 'Software',
-        //         username: 'Assane',
-        //         date: new Date(),
-        //     },
-        //     {
-        //         id:4,
-        //         text: 'ideas three',
-        //         tag: 'Business',
-        //         username: 'Modou',
-        //         date: new Date(),
-        //     }
-        // ];
         this.getIdeas();
 
         this._validTags=new Set();
@@ -68,6 +38,9 @@ class IdeaList{
         };
        return tagClass;
     }
+
+   
+
     render() {
         this._ideaListEl.innerHTML=this._ideas
             .map((idea)=>{
