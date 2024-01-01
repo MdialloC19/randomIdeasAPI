@@ -3,6 +3,7 @@ const express = require('express');
 require('dotenv').config();
 const PORT_DEFAULT = 5000;
 const connectDB = require('./config/db');
+const cors=require('cors');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -23,6 +24,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname,'public')));
+
+// Cors MiddleWare 
+app.use(cors({
+    origin: ['http://localhost:8000', 'http://localhost:3000']
+}));
 
 /**
  * GET route.
