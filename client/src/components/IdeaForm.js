@@ -36,7 +36,7 @@ class IdeaForm{
 
       this.postIdeas(idea);
       // This below line, allow us to display ideas after added it on server side 
-      new IdeaList();
+      new IdeaList().render();
       this._form.elements.text.value=''
       this._form.elements.tag.value=''
       this._form.elements.username.value=''
@@ -51,6 +51,15 @@ class IdeaForm{
        } catch (error) {
           console.log(error)
        }
+    }
+
+    async updateIdea(id){
+      try{
+        const res=await IdeasApi.updateIdea(id)
+        console.log(res);
+      }catch(error){
+        console.log(error);
+      }
     }
    
 

@@ -117,14 +117,15 @@ form label {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.tag {
+.tag, .btn-update {
   display: inline-block;
   background-color: #333;
   color: #fff;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 5px;
   font-size: 14px;
+  border: none;
 }
 
 .tag-technology {
@@ -135,7 +136,7 @@ form label {
   background: coral;
 }
 
-.tag-business {
+.tag-business, .btn-update {
   background: green;
 }
 
