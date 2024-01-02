@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import IdeaList from "./IdeaList";
 import IdeasApi from "../services/IdeasApi";
-
+import Spinner from "./spinner";
 
 class IdeaForm{
 
@@ -13,6 +13,7 @@ class IdeaForm{
       this._formModal=document.querySelector
       ('#form-modal');
       this.modal=new Modal();
+     
 
     }
 
@@ -48,8 +49,10 @@ class IdeaForm{
         this.postIdeas(idea);
       }
 
+      // this.spinner.showSpinner();
       // This below line, allow us to display ideas after added it on server side 
       new IdeaList().getIdeas();
+      // this.spinner.hideSpinner();
       this._form.elements.text.value=''
       this._form.elements.tag.value=''
       this._form.elements.username.value=''
@@ -60,6 +63,7 @@ class IdeaForm{
     async postIdeas(idea){
        try {
           const res=await IdeasApi.postIdeas(idea);
+         
           console.log(res);
        } catch (error) {
           console.log(error)

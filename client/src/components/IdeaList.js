@@ -1,6 +1,7 @@
 import IdeasApi from "../services/IdeasApi";
 import Modal from "./Modal";
 import IdeaForm from "./IdeaForm";
+import Spinner from "./spinner";
 class IdeaList{
 
     constructor(){
@@ -10,6 +11,7 @@ class IdeaList{
         this.updateBtn=[];
         this.modal=new Modal();
         this.ideaform=new IdeaForm();
+        this.spinner=new Spinner();
         this.getIdeas();
 
         this._validTags=new Set();
@@ -52,9 +54,12 @@ class IdeaList{
     async getIdeas(){
 
         try{
+            this.spinner.showSpinner();
             const res =await IdeasApi.getIdeas();
             this._ideas=res.data.data;
+
             this.render();
+            this.spinner.hideSpinner();
         }catch(error){
             console.log(error)
         }
@@ -73,8 +78,12 @@ class IdeaList{
    
     async deleteIdea(id){
         try {
+            this.spinner.showSpinner();
             const res=await IdeasApi.deleteIdea(id);
-             this.getIdeas();
+            this.getIdeas();
+            this.spinner.hideSpinner();
+
+
         } catch (error) {
             alert('You can delete this ressource');
         }
