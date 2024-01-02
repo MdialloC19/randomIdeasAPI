@@ -6,6 +6,10 @@ import IdeasApi from "../services/IdeasApi";
 class IdeaForm{
 
     constructor(){
+      this._update={
+        type:false,
+        id:'',
+      }
       this._formModal=document.querySelector
       ('#form-modal');
       this.modal=new Modal();
@@ -15,6 +19,10 @@ class IdeaForm{
     addEventListeners(){
       this._form.addEventListener('submit', this.
       handleSubmit.bind(this));
+    }
+    update(update){
+      this._update=update;
+      this.render();
     }
 
     handleSubmit(e){
@@ -34,9 +42,14 @@ class IdeaForm{
         username:this._form.elements.username.value,
       }
 
-      this.postIdeas(idea);
+      if(this._update.type){
+        this.updateIdea(this._update.id,idea );
+      }else{
+        this.postIdeas(idea);
+      }
+
       // This below line, allow us to display ideas after added it on server side 
-      new IdeaList().render();
+      new IdeaList().getIdeas();
       this._form.elements.text.value=''
       this._form.elements.tag.value=''
       this._form.elements.username.value=''
@@ -53,9 +66,9 @@ class IdeaForm{
        }
     }
 
-    async updateIdea(id){
+    async updateIdea(id,idea){
       try{
-        const res=await IdeasApi.updateIdea(id)
+        const res=await IdeasApi.updateIdea(id, idea)
         console.log(res);
       }catch(error){
         console.log(error);
@@ -78,7 +91,7 @@ class IdeaForm{
           <label for="tag">Tag</label>
           <input type="text" name="tag" id="tag" />
         </div>
-        <button class="btn" type="submit" id="submit">Submit</button>
+        <button class="btn" type="submit" id="submit" data-id='${this._update.type?this._update.id:''}'>Submit</button>
       </form>`;
 
       this._form=document.querySelector('#idea-form');

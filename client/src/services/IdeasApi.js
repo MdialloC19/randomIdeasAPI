@@ -15,7 +15,7 @@ class IdeasApi{
     }
     
     updateIdea(id,idea){
-        return axios.put(`${this._apiUrl}/${id}`, idea);
+        return axios.put(`${this._apiUrl}/${id}`,idea);
 
     }
     deleteIdea(id){

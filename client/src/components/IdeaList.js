@@ -1,10 +1,15 @@
 import IdeasApi from "../services/IdeasApi";
+import Modal from "./Modal";
+import IdeaForm from "./IdeaForm";
 class IdeaList{
 
     constructor(){
         this._ideaListEl=document.querySelector
             ('#idea-list');
         this._ideas=[];
+        this.updateBtn=[];
+        this.modal=new Modal();
+        this.ideaform=new IdeaForm();
         this.getIdeas();
 
         this._validTags=new Set();
@@ -25,9 +30,23 @@ class IdeaList{
                 const ideaId=e.target.closest('.card').dataset.id;
                 console.log(ideaId);
                 this.deleteIdea(ideaId);
-
             }
         });
+
+        this.updateBtn.forEach((update)=>{
+            update.addEventListener('click', (e)=>{
+                const ideaId=e.target.closest('.card').dataset.id;
+                // console.log(ideaId);
+                // console.log(this);
+                this.ideaform.update({
+                    type:true,
+                    id: ideaId
+                });
+                this.modal.open();
+                
+            });
+        })
+
     }
 
     async getIdeas(){
@@ -35,7 +54,6 @@ class IdeaList{
         try{
             const res =await IdeasApi.getIdeas();
             this._ideas=res.data.data;
-            // console.log(this._ideas);
             this.render();
         }catch(error){
             console.log(error)
@@ -79,14 +97,17 @@ class IdeaList{
                     ${idea.text}
                 </h3>
                 <p class="tag ${tagClass}">${idea.tag}</p>
-                <button class="btn-update">Update</button>
                 <p>
-                    Posted on <span class="date">${idea.date}</span> by
-                    <span class="author">${idea.username}</span>
+                Posted on <span class="date">${idea.date}</span> by
+                <span class="author">${idea.username}</span>
                 </p>
+                <button class="btn-update">Update</button>
                 </div>
                 `
             }).join('');
+        this.updateBtn=document.querySelectorAll('.btn-update');
+        console.log(this.updateBtn);
+
         this.addEventListeners();
        
     }

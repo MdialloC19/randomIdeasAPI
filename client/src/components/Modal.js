@@ -4,7 +4,7 @@ class Modal{
     constructor(){
         this._modal=document.querySelector('#modal');
         this._modalBtn=document.querySelector('#modal-btn');
-        // this._updateBtn=document.querySelector('.btn-update');
+       
         this.addEventListeners();
     }
     addEventListeners(){
@@ -17,6 +17,9 @@ class Modal{
 
     open(){
         this._modal.style.display='block';
+        const btn=document.querySelector('.btn');
+        console.log(btn.dataset.id);
+
     }
 
     close(){
