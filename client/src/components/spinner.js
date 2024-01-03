@@ -1,21 +1,31 @@
-class spinner {
+/**
+ * Represents a spinner element.
+ */
+class Spinner {
+  /**
+   * Constructs a Spinner object.
+   */
+  constructor() {
+    /**
+     * The spinner element.
+     * @type {HTMLElement}
+     */
+    this.spinner = document.querySelector('.spinner');
+  }
 
-    constructor(){
-        this.spinner=document.querySelector('.spinner'); 
-    }
+  /**
+   * Displays the spinner.
+   */
+  showSpinner() {
+    this.spinner.classList.add('show');
+  }
 
-    // Function Show Spinner
-
-    showSpinner(){
-        this.spinner.classList.add('show');
-
-    }
-    // Hide Spinner
-
-    hideSpinner(){
-       this.spinner.classList.remove('show');
-
-    }
+  /**
+   * Hides the spinner.
+   */
+  hideSpinner() {
+    this.spinner.classList.remove('show');
+  }
 }
 
-export default spinner;
+export default Spinner;
