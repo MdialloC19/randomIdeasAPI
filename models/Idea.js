@@ -1,40 +1,23 @@
-/**
- * @typedef {Object} Idea
- * @property {string} text - The text of the idea.
- * @property {string} [tag] - The tag of the idea.
- * @property {string} [username] - The username associated with the idea.
- * @property {Date} [date] - The creation date of the idea.
- */
+const mongoose=require('mongoose');
 
-/**
- * @typedef {import('mongoose').Schema} Schema
- * @typedef {import('mongoose').Model<Idea>} IdeaModel
- */
 
-const mongoose = require('mongoose');
-
-/**
- * Schema for an idea.
- * @type {Schema<IdeaModel>}
- */
-const IdeaSchema = new mongoose.Schema({
-    text: {
+const IdeaSchema=new mongoose.Schema({
+    text :{
         type: String,
         required: [true, 'Please add a text field'],
     },
-    tag: {
-        type: String,
+    tag :{
+        type : String,
     },
-    username: {
+    username :{
         type: String,
     },
     date: {
         type: Date,
-        default: Date.now,
-    },
+        default:  Date.now,
+    }
 });
 
-/**
- * @type {IdeaModel}
- */
-module.exports = mongoose.model('Idea', IdeaSchema);
+// console.log(IdeaSchema.path('_id'));
+
+module.exports= mongoose.model('Idea', IdeaSchema);
