@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Idea = require('../models/Idea');
+const Controllers=require('../controllers/IdeasControllers');
+const mongoose = require('mongoose');
 const { isValidObjectId } = require('mongoose');
 
 /**
@@ -8,14 +10,19 @@ const { isValidObjectId } = require('mongoose');
  * @description Get all ideas
  * @access Public
  */
-router.get('/', async (req, res) => {
-    try {
-        const ideas = await Idea.find();
-        res.status(200).json({ succeed: true, data: ideas });
-    } catch (error) {
-        res.status(500).json({ succeed: false, error: 'Something went wrong' });
-    }
-});
+router.get('/',(res,req)=>{
+    Controllers.getAllIdeas(res,req);
+}
+
+//  async (req, res) => {
+//     try {
+//         const ideas = await Idea.find();
+//         res.status(200).json({ succeed: true, data: ideas });
+//     } catch (error) {
+//         res.status(500).json({ succeed: false, error: 'Something went wrong' });
+//     }
+// }
+);
 
 /**
  * @route GET /ideas/:id
@@ -24,22 +31,23 @@ router.get('/', async (req, res) => {
  * @access Public
  */
 router.get('/:id', async (req, res) => {
-    try {
-        const ideaId = req.params.id;
+         Controllers.getIdea(res,req);
+    // try {
+    //     const ideaId = req.params.id;
 
-        // Validate the ID
-        if (!isValidObjectId(ideaId)) {
-            return res.status(400).json({ succeed: false, error: 'Invalid idea ID' });
-        }
+    //     // Validate the ID
+    //     if (!isValidObjectId(ideaId)) {
+    //         return res.status(400).json({ succeed: false, error: 'Invalid idea ID' });
+    //     }
 
-        const idea = await Idea.findById(ideaId);
-        if (!idea) {
-            return res.status(404).json({ succeed: false, error: 'Idea not found' });
-        }
-        res.status(200).json({ succeed: true, data: idea });
-    } catch (error) {
-        res.status(500).json({ succeed: false, error: error.message });
-    }
+    //     const idea = await Idea.findById(ideaId);
+    //     if (!idea) {
+    //         return res.status(404).json({ succeed: false, error: 'Idea not found' });
+    //     }
+    //     res.status(200).json({ succeed: true, data: idea });
+    // } catch (error) {
+    //     res.status(500).json({ succeed: false, error: error.message });
+    // }
 });
 
 /**
@@ -63,7 +71,7 @@ router.post('/', async (req, res) => {
  * @description Update an existing idea by its ID
  * @access Public
  */
-const mongoose = require('mongoose');
+
 
 router.put('/:id', async (req, res) => {
 

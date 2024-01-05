@@ -4,6 +4,7 @@ require('dotenv').config();
 const PORT_DEFAULT = 8000;
 const connectDB = require('./config/db');
 const cors=require('cors');
+const ideasRouter = require('./routes/ideas');
 
 /**
  * Normalize a port into a number, string, or false.
@@ -43,7 +44,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the RandomIdeas API' });
 });
 
-const ideasRouter = require('./routes/ideas');
+
 
 /**
  * Ideas API route.
