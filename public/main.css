@@ -1,4 +1,10 @@
+/*!*********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/style.css ***!
+  \*********************************************************************/
 @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap);
+/*!*************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/style.css (1) ***!
+  \*************************************************************************/
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
@@ -177,7 +183,11 @@ form label {
   }
 }
 
+/*!***********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/spinner.css ***!
+  \***********************************************************************/
  /* Spinner From: https://codepen.io/tbrownvisuals/pen/edGYvx take from this site */ 
+
 .spinner {
   position: fixed;
   z-index: 999;
@@ -191,10 +201,9 @@ form label {
   right: 0;
   display: none;
 }
-
-.show {
-  display: block;
-}
+ .show {
+   display: block;
+ }
 
 /* Transparent Overlay */
 .spinner:before {
