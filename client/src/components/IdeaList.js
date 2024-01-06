@@ -38,8 +38,6 @@ class IdeaList{
         this.updateBtn.forEach((update)=>{
             update.addEventListener('click', (e)=>{
                 const ideaId=e.target.closest('.card').dataset.id;
-                // console.log(ideaId);
-                // console.log(this);
                 this.ideaform.update({
                     type:true,
                     id: ideaId
@@ -57,7 +55,6 @@ class IdeaList{
             this.spinner.showSpinner();
             const res =await IdeasApi.getIdeas();
             this._ideas=res.data.data;
-
             this.render();
             this.spinner.hideSpinner();
         }catch(error){
@@ -82,7 +79,6 @@ class IdeaList{
             const res=await IdeasApi.deleteIdea(id);
             this.getIdeas();
             this.spinner.hideSpinner();
-
 
         } catch (error) {
             alert('You can delete this ressource');
