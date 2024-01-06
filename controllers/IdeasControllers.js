@@ -1,6 +1,14 @@
 const Idea=require('../models/Idea');
 const {isValidObjectId}=require('mongoose');
 
+
+/**
+ * Get all ideas.
+ * @route GET /ideas
+ * @returns {Object} - Returns an object with the list of ideas.
+ * @throws {Error} - Returns an error message if something went wrong.
+ */
+
 exports.getAllIdeas= async (req,res)=>{
         try {
             const ideas= await Idea.find();
@@ -17,6 +25,14 @@ exports.getAllIdeas= async (req,res)=>{
         }
         
     }
+
+/**
+ * Get a specific idea by ID.
+ * @route GET /ideas/:id
+ * @param {string} req.params.id - The ID of the idea.
+ * @returns {Object} - Returns an object with the requested idea.
+ * @throws {Error} - Returns an error message if something went wrong.
+ */
 
 exports.getIdea=async (req,res)=>{
         try {
@@ -48,6 +64,15 @@ exports.getIdea=async (req,res)=>{
         }
     }
 
+/**
+ * Create a new idea.
+ * @route POST /ideas
+ * @param {string} req.body.text - The text of the idea.
+ * @param {string} req.body.tag - The tag of the idea.
+ * @param {string} req.body.username - The username associated with the idea.
+ * @returns {Object} - Returns an object with the saved idea.
+ * @throws {Error} - Returns an error message if something went wrong.
+ */
 exports.postIdea=async (req,res)=>{
     const { text, tag, username } = req.body;
     const idea = new Idea({ text, tag, username });
@@ -66,6 +91,18 @@ exports.postIdea=async (req,res)=>{
         console.log(error);
     }
 }
+
+/**
+ * Update an existing idea.
+ * @route PUT /ideas/:id
+ * @param {string} req.params.id - The ID of the idea to be updated.
+ * @param {string} req.params.username - The username associated with the idea.
+ * @param {string} req.body.text - The updated text of the idea.
+ * @param {string} req.body.tag - The updated tag of the idea.
+ * @param {string} req.body.username - The updated username associated with the idea.
+ * @returns {Object} - Returns an object with the updated idea.
+ * @throws {Error} - Returns an error message if something went wrong.
+ */
 
 exports.putIdea=async (req,res)=>{
     try {
@@ -119,6 +156,15 @@ exports.putIdea=async (req,res)=>{
         console.log(error);
     }
 }
+
+/**
+ * Delete an existing idea.
+ * @route DELETE /ideas/:id
+ * @param {string} req.params.id - The ID of the idea to be deleted.
+ * @param {string} req.body.username - The username associated with the idea.
+ * @returns {Object} - Returns an object with the deleted idea.
+ * @throws {Error} - Returns an error message if something went wrong.
+ */
 
 exports.deletedIdea=async (req,res)=>{
     try {
