@@ -1,71 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Idea = require('../models/Idea');
-const Controllers=require('../controllers/IdeasControllers');
 const mongoose = require('mongoose');
 const { isValidObjectId } = require('mongoose');
+const IdeasControllers = require('../controllers/IdeasControllers');
 
-/**
- * @route GET /ideas
- * @description Get all ideas
- * @access Public
- */
-router.get('/',(res,req)=>{
-    Controllers.getAllIdeas(res,req);
-}
-
-//  async (req, res) => {
-//     try {
-//         const ideas = await Idea.find();
-//         res.status(200).json({ succeed: true, data: ideas });
-//     } catch (error) {
-//         res.status(500).json({ succeed: false, error: 'Something went wrong' });
-//     }
-// }
-);
-
-/**
- * @route GET /ideas/:id
- * @description Get a specific idea by its ID
- * @param {string} req.params.id - The ID of the idea to retrieve
- * @access Public
- */
-router.get('/:id', async (req, res) => {
-         Controllers.getIdea(res,req);
-    // try {
-    //     const ideaId = req.params.id;
-
-    //     // Validate the ID
-    //     if (!isValidObjectId(ideaId)) {
-    //         return res.status(400).json({ succeed: false, error: 'Invalid idea ID' });
-    //     }
-
-    //     const idea = await Idea.findById(ideaId);
-    //     if (!idea) {
-    //         return res.status(404).json({ succeed: false, error: 'Idea not found' });
-    //     }
-    //     res.status(200).json({ succeed: true, data: idea });
-    // } catch (error) {
-    //     res.status(500).json({ succeed: false, error: error.message });
-    // }
-});
-
-/**
- * @route POST /ideas
- * @description Add a new idea
- * @access Public
- */
-router.post('/', async (req, res) => {
-    const { text, tag, username } = req.body;
-    const idea = new Idea({ text, tag, username });
-    try {
-        const savedIdea = await idea.save();
-        res.status(201).json({ succeed: true, message: 'Idea added successfully', data: savedIdea });
-    } catch (error) {
-        res.status(500).json({ succeed: false, error: 'Something went wrong' });
-    }
-});
-
+router.get('/', IdeasControllers.getAllIdeas);
+router.get('/:id', IdeasControllers.getIdea);
+router.post('/', IdeasControllers.postIdea);
 /**
  * @route PUT /ideas/:id
  * @description Update an existing idea by its ID

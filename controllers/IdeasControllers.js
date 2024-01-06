@@ -1,12 +1,9 @@
 const Idea=require('../models/Idea');
 const {isValidObjectId}=require('mongoose');
 
-class IdeasControllers {
 
-    constructor(){
-    }
 
-    async getAllIdeas(res,req){
+exports.getAllIdeas= async (res,req)=>{
         try {
             const ideas= await Idea.find();
             res.status(200).json({
@@ -20,7 +17,7 @@ class IdeasControllers {
         
     }
 
-    async getIdea(res,req){
+exports.getIdea  =async (res,req)=>{
         try {
             const ideaId=req.params.id;
             if(!isValidObjectId(ideaId)){
@@ -52,6 +49,24 @@ class IdeasControllers {
         }
     }
 
-}
+exports.postIdea=async (res,req)=>{
+    const { text, tag, username } = req.body;
+    const idea = new Idea({ text, tag, username });
+    try {
+        savedIdea=await idea.save();
+        res.status(201).json({
+            succed:true,
+            data: savedIdea,
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            succed:false,
+            error: 'Something went Wrong'
+        });
+        
 
-module.exports=IdeasControllers;
+        console.log(error);
+        
+    }
+}
