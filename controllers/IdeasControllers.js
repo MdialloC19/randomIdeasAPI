@@ -131,11 +131,15 @@ exports.putIdea=async (req,res)=>{
                 });
             }
 
-            const updatedIdea=await Idea.findByIdAndUpdate({
-                id:ideaId,
-                $set:updateFields,
-                new:true
-            });
+            // const updatedIdea=await Idea.findByIdAndUpdate({
+            //     id:ideaId,
+            //     $set:updateFields,
+            //     new:true
+            // });
+            const updatedIdea = await Idea.findByIdAndUpdate(
+                ideaId, updateFields, { new: true }
+            );
+
 
             if (updatedIdea === null) {
                 return res.status(404).json({ succeed: false, error: 'Idea not found' });

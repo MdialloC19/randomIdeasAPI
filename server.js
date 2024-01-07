@@ -66,3 +66,4 @@ const port = normalizePort(process.env.PORT || PORT_DEFAULT);
  * @param {number|string} port - Port number
  */
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
+module.exports=app;
