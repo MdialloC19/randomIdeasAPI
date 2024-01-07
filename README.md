@@ -14,6 +14,13 @@ This repository contains the source code for a RESTful API built with Node.js an
 - **MongoDB:** NoSQL database used for storing random idea information.
 - **Mongoose:** MongoDB object modeling for Node.js, providing schema-based solutions.
 
+## Project Structure
+The project follows a modular structure:
+- **Controllers:** Handle incoming requests, interact with services.
+- **Services:** Implement business logic, interact with models.
+- **Models:** Define data schema, interact with the database.
+- **Client Src:** Frontend components for interacting with the API.
+
 ## Setup Instructions
 1. Clone this repository.
 2. Install dependencies using `npm install`.
@@ -26,5 +33,12 @@ This repository contains the source code for a RESTful API built with Node.js an
 - **POST /ideas:** Create a new random idea.
 - **PUT /ideas/:id:** Update an existing idea by ID.
 - **DELETE /ideas/:id:** Delete an idea by ID.
+
+## Testing
+The application includes tests covering various functionalities:
+- **GET:** Tests to retrieve random ideas and specific ideas by ID.
+- **POST:** Tests to create new random ideas.
+- **PUT:** Tests to update existing ideas.
+- **DELETE:** Tests to delete existing ideas.
 
 Feel free to contribute, report issues, or suggest enhancements by opening a pull request or creating an issue.
