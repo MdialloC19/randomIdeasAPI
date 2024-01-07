@@ -107,8 +107,6 @@ exports.postIdea=async (req,res)=>{
 exports.putIdea=async (req,res)=>{
     try {
         const ideaId= req.params.id;
-        const idea=await Idea.findById(ideaId);
-
         if (!isValidObjectId(ideaId)) {
             return res.status(400).json({
                 succeed: false,
@@ -116,7 +114,10 @@ exports.putIdea=async (req,res)=>{
             });
         }
 
-        if(idea.user===req.params.username){
+        const idea=await Idea.findById(ideaId);
+        console.log(idea.username, req.body.username);
+       
+        if(idea.username===req.body.username){
             const { text, tag, username } = req.body;
             const updateFields = {};
 
@@ -139,7 +140,6 @@ exports.putIdea=async (req,res)=>{
             const updatedIdea = await Idea.findByIdAndUpdate(
                 ideaId, updateFields, { new: true }
             );
-
 
             if (updatedIdea === null) {
                 return res.status(404).json({ succeed: false, error: 'Idea not found' });
