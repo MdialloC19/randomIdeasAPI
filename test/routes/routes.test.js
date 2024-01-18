@@ -1,6 +1,6 @@
 const request = require('supertest');
 const baseURL = "http://localhost:8000";
-const app = require('../../server'); 
+const app = require('../../app'); 
 
 describe('API Routes Testing', () => {
     it('Should be a function', ()=>{

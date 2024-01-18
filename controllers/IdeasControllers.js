@@ -115,7 +115,7 @@ exports.putIdea=async (req,res)=>{
         }
 
         const idea=await Idea.findById(ideaId);
-        console.log(idea.username, req.body.username);
+        // console.log(idea.username, req.body.username);
        
         if(idea.username===req.body.username){
             const { text, tag, username } = req.body;

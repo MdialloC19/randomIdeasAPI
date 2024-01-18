@@ -49,15 +49,14 @@ class IdeaForm{
         this.postIdeas(idea);
       }
 
-      // this.spinner.showSpinner();
+     
       // This below line, allow us to display ideas after added it on server side 
       new IdeaList().getIdeas();
-      // this.spinner.hideSpinner();
       this._form.elements.text.value=''
       this._form.elements.tag.value=''
       this._form.elements.username.value=''
       this.render();
-      document.dispatchEvent(new Event('closemodal'));
+      document.dispatchEvent(new Event('closemodal'));// for closing the modal after submit
     }
 
     async postIdeas(idea){
