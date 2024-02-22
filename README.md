@@ -1,7 +1,60 @@
 # RandomIdeas API with Node.js, Express, and MongoDB
 
 This repository contains the source code for a RESTful API built with Node.js and Express to manage random ideas. The API allows users to perform CRUD operations (Create, Read, Update, Delete) on a MongoDB database.
+```
+![picture of application](./ramdom ideas.png)
+```
 
+
+# Install Dependencies
+
+## Install dependencies on the front-end and back-end
+
+```bash
+npm install
+cd client
+npm install
+```
+
+## Back-end/Express Server
+
+```bash
+npm start
+```
+
+or
+
+```bash
+npm run dev (Nodemon)
+```
+
+Visit [http://localhost:5000](http://localhost:5000)
+
+## Front-end/Webpack Dev Server
+
+```bash
+cd client
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000)
+
+## To build front-end production files
+
+```bash
+cd client
+npm run build
+```
+
+The production build will be put into the public folder, which is the Express static folder.
+
+## Environment Variables
+
+Rename `.env-example` to `.env` and add your MongoDB URI to the `.env` file.
+
+```plaintext
+MONGO_URI=your_mongodb_uri
+```
 ## Features
 - **Create:** Add new random ideas with details.
 - **Read:** Retrieve a list of random ideas or specific ideas by ID.
@@ -35,10 +88,12 @@ The project follows a modular structure:
 - **DELETE /ideas/:id:** Delete an idea by ID.
 
 ## Testing
-The application includes tests covering various functionalities:
+The application includes tests covering various functionalities, with the test framework of js, **JEST**:
 - **GET:** Tests to retrieve random ideas and specific ideas by ID.
 - **POST:** Tests to create new random ideas.
 - **PUT:** Tests to update existing ideas.
 - **DELETE:** Tests to delete existing ideas.
 
 Feel free to contribute, report issues, or suggest enhancements by opening a pull request or creating an issue.
+
+
